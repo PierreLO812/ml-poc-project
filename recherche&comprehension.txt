@@ -1,0 +1,7 @@
+.npz files are binary wich are numpy arrays combined in one file. 
+for opening .npz filesin python : 
+import numpy
+b = numpy.load('data.npz')
+print(b.files)
+
+
