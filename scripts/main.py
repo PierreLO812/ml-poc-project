@@ -74,13 +74,14 @@ st.markdown('<div class="subtitle">Proof of Concept d\'explicabilité du comport
 
 # Load dataset
 @st.cache_data
-def load_data():
-    csv_path = Path('data/extracted_dataset.csv')
+def load_data(csv_path, mtime):
     if csv_path.exists():
         return pd.read_csv(csv_path)
     return None
 
-df = load_data()
+csv_path = Path('data/extracted_dataset.csv')
+mtime = csv_path.stat().st_mtime if csv_path.exists() else 0
+df = load_data(csv_path, mtime)
 
 if df is None:
     st.error("❌ Dataset introuvable !")
