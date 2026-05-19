@@ -36,7 +36,7 @@ if not maps:
 print("\nExtraction des données (avec contexte continu de la conduite)...")
 data = []
 
-target_samples = 400
+target_samples = 1500
 pbar = tqdm(total=target_samples, desc="Extraction diversifiée")
 
 all_anns = [a for a in nuscenes.sample_annotation if 'vehicle' in a['category_name']]
@@ -139,6 +139,12 @@ for ann in all_anns:
 
 pbar.close()
 df = pd.DataFrame(data)
+
+# Sauvegarde du dataset pour le charger instantanément dans Streamlit
+import os
+os.makedirs('data', exist_ok=True)
+df.to_csv('data/extracted_dataset.csv', index=False)
+print("Dataset sauvegardé sous data/extracted_dataset.csv")
 
 if len(df) < 10:
     print("Pas assez de données extraites. Essayez d'augmenter le nombre de scènes disponibles.")
