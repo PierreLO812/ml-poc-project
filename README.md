@@ -65,13 +65,36 @@ pip install -r requirements.txt
 
 *(Si nécessaire, installez la bibliothèque d'outils NuScenes : `pip install nuscenes-devkit`)*
 
-### Exécution du Surrogate Model
-Lancez le script principal pour générer les arbres de décision explicatifs :
+### Exécution & Visualisation
+
+Vous pouvez exécuter le projet de deux manières :
+
+#### 1. Modèle de substitution en ligne de commande (Terminal)
+Générez les arbres et visualisez les règles brutes dans votre terminal :
 ```bash
 python src/surrogatemodel.py
 ```
+Le script affichera la barre de progression de l'extraction, entraînera les modèles, affichera les métriques ($R^2$ et MAE) et sauvegardera automatiquement les données finalisées sous `data/extracted_dataset.csv` pour alimenter le dashboard Streamlit.
 
-Le script affichera :
-- La barre de progression de l'extraction des données.
-- Le R² et la MAE pour le modèle de braquage suivi de ses règles logiques.
-- Le R² et la MAE pour le modèle d'accélération/freinage suivi de ses règles logiques.
+#### 2. Dashboard Interactif Streamlit (Web)
+Lancez l'interface graphique interactive pour explorer et jouer avec le modèle :
+```bash
+streamlit run scripts/main.py
+```
+
+---
+
+## 🎨 Fonctionnalités du Dashboard Streamlit
+
+L'interface utilisateur Streamlit est structurée en deux grands espaces :
+
+### 1. 🌎 Onglet 1 : Le Dataset NuScenes
+* **Visualisation et animations** : Intégration de GIFs et d'illustrations issus du devkit NuScenes pour mieux appréhender les trajectoires du Prediction Challenge.
+* **Chiffres clés du projet** : Récapitulatif du nombre de scènes totales (1000) vs mini (10), les villes d'acquisition (Boston & Singapour) et le volume total d'échantillons continus extraits.
+* **Visualisation descriptive** : Graphiques de distribution des variables comme la vitesse actuelle du véhicule.
+
+### 2. 🧠 Onglet 2 : Surrogate Model & Explicabilité
+* **Métriques clés d'évaluation** : Suivi des scores $R^2$ et MAE en unités réelles pour les modèles de braquage (`rad/s`) et d'accélération (`m/s²`).
+* **Simulateur d'environnement interactif** : Des curseurs (sliders) dans le volet latéral permettent d'ajuster en temps réel la vitesse, la courbure de la voie, la distance d'un obstacle ou encore la distance restante avant la fin de la voie.
+* **Jauges dynamiques** : Visualisation instantanée de l'accélération et de l'angle de braquage prédits sous forme de cadrans/jauges interactifs (Plotly).
+* **Traceur XAI (Explainable AI) pas à pas** : Affiche le cheminement logique exact pris dans l'arbre de décision (les nœuds traversés et conditions validées) pour expliquer précisément *pourquoi* le modèle a pris cette décision.
