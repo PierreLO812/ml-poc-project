@@ -317,3 +317,14 @@ http-client.private.env.json
 
 # Exclude logs directory
 logs/*
+
+# Exclude NuScenes datasets and archives
+data/
+*.tgz
+*.zip
+*.tar
+*.tar.gz
+
+# Temp files
+~$*
+*.tmp
